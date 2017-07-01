@@ -10,4 +10,6 @@ import pinadani.filemanager.ui.adapter.FileAdapter;
 public interface IBrowserView {
 
     void initFileAdapter(FileAdapter adapter);
+
+    void switchActionMode(boolean isOn);
 }

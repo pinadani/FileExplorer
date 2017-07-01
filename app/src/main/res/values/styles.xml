@@ -11,14 +11,19 @@
         <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
         <item name="android:colorAccent">@color/color_accent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14</item>
+        <item name="actionModeStyle">@style/MyCustomMenu.ActionMode</item>
     </style>
 
-    <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+    <style name="MyCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="MyCustomMenu.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/color_primary</item>
+    </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+        <item name="android:itemTextAppearance">@style/MyCustomMenuTextApearance</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlHighlight">@android:color/white</item>

@@ -8,6 +8,6 @@ public class Constants {
     public static final long KILOBYTE = 1024;
     public static final long MEGABYTE = KILOBYTE * 1024;
     public static final long GIGABYTE = MEGABYTE * 1024;
-    public static final String TRIP_DATE_FORMAT = "dd.MM.yyyy";
+    public static final String TRIP_DATE_FORMAT = "MMM dd. yyyy";
     public static final String DEFAULT_HOME_FOLDER = "/";
 }

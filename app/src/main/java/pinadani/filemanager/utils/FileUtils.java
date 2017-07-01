@@ -1,5 +1,7 @@
 package pinadani.filemanager.utils;
 
+import android.webkit.MimeTypeMap;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
@@ -19,6 +21,27 @@ public class FileUtils {
     private static final String GIGABYTES_POSTFIX = " gb";
 
     public static final FileFilter DEFAULT_FILE_FILTER = pathname -> !pathname.isHidden();
+
+    public static String getFileMimeType(File file) {
+        String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(file));
+        if (type == null) return "*/*";
+        return type;
+    }
+
+    private static String getFileExtension(File file) {
+        return getFileExtension(file.getName());
+    }
+
+    /**
+     * Gets extension of the file name excluding the . character
+     */
+    public static String getFileExtension(String fileName)
+    {
+        if (fileName.contains("."))
+            return fileName.substring(fileName.lastIndexOf('.')+1);
+        else
+            return "";
+    }
 
     /**
      * Compares files by name

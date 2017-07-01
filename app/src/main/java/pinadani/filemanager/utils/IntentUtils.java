@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.ShareCompat;
 
+import java.io.File;
+
 /**
  * Intent utilities mainly gathering different purpose of user needs
  * Created on {18/12/15}
@@ -93,4 +95,9 @@ public class IntentUtils {
         }
     }
 
+    public static Intent createFileOpenIntent(File file) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), FileUtils.getFileMimeType(file));
+        return intent;
+    }
 }

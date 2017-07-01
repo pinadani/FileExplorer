@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,8 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
 
     @Bind(R.id.recycler_file)
     RecyclerView mRecyclerFile;
+
+    private ActionMode mActionMode = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,10 +79,63 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
 
     @Override
     protected void initAB() {
+        baseSettingsAB();
     }
 
     @Override
     public void initFileAdapter(FileAdapter adapter) {
         mRecyclerFile.setAdapter(adapter);
     }
+
+    @Override
+    public void switchActionMode(boolean isOn) {
+        // Start the CAB using the ActionMode.Callback defined above
+        if (isOn) {
+            mActionMode = getActivity().startActionMode(mActionModeCallback);
+        } else {
+            if (mActionMode != null) {
+
+                mActionMode.finish();
+            }
+        }
+    }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; switchActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.menu_delete, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_delete:
+                    getPresenter().deleteSelectedItems();
+                    mode.finish(); // Action picked, so close the CAB
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            getPresenter().deselectItems();
+        }
+    };
 }
