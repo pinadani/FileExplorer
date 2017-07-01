@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_access_storage_expanation">Aplikace potřebuje povolit pristup k Vaší paměti, aby ...</string>
+
+    <!--MAIN ACTIVITY-->
+    <string name="main_leave">Press back again to leave</string>
+    <string name="alert_dialog_default_positive">OK</string>
+    <string name="alert_dialog_default_negative">Zrušit</string>
+    <string name="settings">Nastavení</string>
+</resources>

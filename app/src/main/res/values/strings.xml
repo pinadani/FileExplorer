@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FileManager</string>
+    <string name="permission_access_storage_expanation">We need your access to your storage.</string>
+    <string name="ok">OK</string>
+
+    <!--MAIN ACTIVITY-->
+    <string name="main_leave">Press back again to leave</string>
+    <string name="alert_dialog_default_positive">OK</string>
+    <string name="alert_dialog_default_negative">Cancel</string>
+    <string name="settings">Settings</string>
+    <string name="default_folder">Default folder</string>
+    <string name="summary_intent_preference">aaaa</string>
+
+    <string name="movies_categories_key">categoriesKey</string>
+    <string name="default_movies_categories">popular</string>
+</resources>

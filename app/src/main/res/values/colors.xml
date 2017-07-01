@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BASE COLORS -->
+    <color name="color_primary">#02a9f4</color>
+    <color name="color_primary_dark">#0288ce</color>
+    <color name="color_accent">#FF2687</color>
+    <color name="primary_text">#4c5258</color>
+
+    <color name="black">#000000</color>
+    <color name="black_75_alpha">#C0000000</color>
+    <color name="black_50_alpha">#7F000000</color>
+    <color name="black_25_alpha">#40000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_75_alpha">#CFFFFFFF</color>
+    <color name="white_50_alpha">#CFFFFFFF</color>
+    <color name="white_25_alpha">#40FFFFFF</color>
+    <color name="white_15_alpha">#20FFFFFF</color>
+
+    <color name="primary_text_50_alpha">#7f4c5258</color>
+    <color name="grey_light_50_alpha">#7fcfd8dc</color>
+</resources>
