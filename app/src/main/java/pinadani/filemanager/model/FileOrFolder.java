@@ -1,8 +1,11 @@
 package pinadani.filemanager.model;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.io.File;
+
+import pinadani.filemanager.Constants;
 
 /**
  * TODO
@@ -22,5 +25,9 @@ public class FileOrFolder extends File{
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isParent() {
+        return TextUtils.equals(Constants.DEFAULT_HOME_FOLDER, getAbsolutePath());
     }
 }

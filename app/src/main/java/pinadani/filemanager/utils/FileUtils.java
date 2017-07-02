@@ -1,5 +1,7 @@
 package pinadani.filemanager.utils;
 
+import android.os.Environment;
+import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
@@ -35,12 +37,38 @@ public class FileUtils {
     /**
      * Gets extension of the file name excluding the . character
      */
-    public static String getFileExtension(String fileName)
-    {
+    public static String getFileExtension(String fileName) {
         if (fileName.contains("."))
-            return fileName.substring(fileName.lastIndexOf('.')+1);
+            return fileName.substring(fileName.lastIndexOf('.') + 1);
         else
             return "";
+    }
+
+    public static boolean isInternalHomeDir(File file) {
+        return TextUtils.equals(Environment.getRootDirectory().getAbsolutePath(), file.getAbsolutePath());
+    }
+
+    public static boolean isExternalHomeDir(File file) {
+        return TextUtils.equals(Environment.getExternalStorageDirectory().getAbsolutePath(), file.getAbsolutePath());
+    }
+
+    public static boolean isInternalOrSDCard(File file) {
+        return (isInternalHomeDir(file) || isExternalHomeDir(file));
+    }
+
+    public static String getShortPath(File dir) {
+        if (!isInternalOrSDCard(dir)) {
+            String path = dir.getAbsolutePath();
+            if (path.contains("/")) {
+                return ("..." + path.substring(path.lastIndexOf('/')));
+            }
+        } else {
+            if (isExternalHomeDir(dir)) {
+                //TODO
+                return "SD Card";
+            }
+        }
+        return "/";
     }
 
     /**

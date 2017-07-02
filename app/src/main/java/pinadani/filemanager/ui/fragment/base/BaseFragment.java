@@ -88,7 +88,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
     public void onUpButtonClicked() {
     }
 
-    protected void setTitle(int title) {
+    public void setTitle(int title) {
         delegate.setTitle(title);
     }
 
@@ -98,7 +98,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
 
     protected abstract String getTitle();
 
-    protected void setTitle(String title) {
+    public void setTitle(String title) {
         delegate.setTitle(title);
     }
 

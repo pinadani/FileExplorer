@@ -1,6 +1,5 @@
 package pinadani.filemanager.ui.adapter;
 
-import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -30,7 +28,7 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
 
     private final DateFormat mDateFormat = new SimpleDateFormat(Constants.TRIP_DATE_FORMAT);
     private final IFileListener mFileListener;
-    private boolean mSelectMode = false;
+    private boolean mHasParent = false;
 
     public FileAdapter(List<FileOrFolder> data, IFileListener fileListener) {
         super(data);
@@ -46,25 +44,43 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         FileOrFolder fileOrFolder = getItem(position);
-        if (fileOrFolder.isDirectory()) {
-            holder.mFileDate.setText(mDateFormat.format(fileOrFolder.lastModified()));
-        } else {
-            holder.mFileDate.setText(FileUtils.formatFileSize(fileOrFolder));
-            holder.mFileImg.setImageDrawable(ContextCompat.getDrawable(App.getInstance(), R.drawable.ic_file));
-        }
-
-        holder.mFileSelectedLayout.setVisibility(fileOrFolder.isSelected() ? View.VISIBLE : View.GONE);
-
-        holder.mFileName.setText(fileOrFolder.getName());
-
         holder.mRow.setOnClickListener(v -> mFileListener.onFileClicked(fileOrFolder, position));
 
         holder.mRow.setOnLongClickListener(v -> {
             mFileListener.onLongFileClicked(fileOrFolder, position);
             return true;
         });
+
+        if (mHasParent && position == 0) {
+            holder.mFileImg.setVisibility(View.VISIBLE);
+            holder.mFileType.setVisibility(View.GONE);
+            holder.mFileImg.setImageDrawable(ContextCompat.getDrawable(App.getInstance(), R.drawable.ic_arrow_up));
+            holder.mFileName.setText("..");
+            holder.mFileDate.setText("");
+            return;
+        }
+
+        if (fileOrFolder.isDirectory()) {
+            holder.mFileDate.setText(mDateFormat.format(fileOrFolder.lastModified()));
+            holder.mFileImg.setImageDrawable(ContextCompat.getDrawable(App.getInstance(), R.drawable.ic_folder));
+        } else {
+            holder.mFileDate.setText(FileUtils.formatFileSize(fileOrFolder));
+            holder.mFileType.setText(FileUtils.getFileExtension(fileOrFolder.getName()));
+        }
+
+        holder.mFileImg.setVisibility(fileOrFolder.isDirectory() ? View.VISIBLE : View.GONE);
+        holder.mFileType.setVisibility(fileOrFolder.isDirectory() ? View.GONE : View.VISIBLE);
+
+        holder.mFileSelectedLayout.setVisibility(fileOrFolder.isSelected() ? View.VISIBLE : View.GONE);
+
+        holder.mFileName.setText(fileOrFolder.getName());
+
+
     }
 
+    public void setParent(boolean hasParent) {
+        mHasParent = hasParent;
+    }
 
     public class ViewHolder extends BaseRecyclerViewAdapter.ViewHolder {
 
@@ -76,11 +92,12 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
         TextView mFileDate;
         @Bind(R.id.img_file)
         ImageView mFileImg;
+        @Bind(R.id.txt_file_type)
+        TextView mFileType;
         @Bind(R.id.layout_img_file)
         RelativeLayout mFileImgLayout;
         @Bind(R.id.img_selected_file)
         RelativeLayout mFileSelectedLayout;
-
 
 
         public ViewHolder(View itemView) {

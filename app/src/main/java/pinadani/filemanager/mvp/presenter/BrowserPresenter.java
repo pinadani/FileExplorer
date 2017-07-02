@@ -24,6 +24,7 @@ import pinadani.filemanager.ui.adapter.FileAdapter;
 import pinadani.filemanager.ui.fragment.BrowserFragment;
 import pinadani.filemanager.utils.FileUtils;
 import pinadani.filemanager.utils.IntentUtils;
+import pinadani.filemanager.utils.PermissionUtils;
 
 /**
  * Presenter managing actions on the main activity.
@@ -53,13 +54,15 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
         if (mAdapter == null) {
             mAdapter = new FileAdapter(null, this);
         }
-        loadFileList();
     }
 
     @Override
     protected void onTakeView(IBrowserView iBrowserView) {
         super.onTakeView(iBrowserView);
         iBrowserView.initFileAdapter(mAdapter);
+        if (PermissionUtils.areStoragePermissionsGranted(((BrowserFragment) iBrowserView).getActivity())) {
+            loadFileList();
+        }
     }
 
     void loadFileList() {
@@ -93,10 +96,21 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
                 loadFilesTask = null;
 
                 mFiles = new ArrayList<>();
+
+
+                if (!FileUtils.isInternalOrSDCard(mCurrentDir)) {
+                    mAdapter.setParent(true);
+                    mFiles.add(new FileOrFolder(""));
+                } else {
+                    mAdapter.setParent(false);
+                }
                 for (File file : result) {
                     mFiles.add(new FileOrFolder(file.getAbsolutePath()));
                 }
                 mAdapter.setData(mFiles);
+                if (getView() != null) {
+                    ((BrowserFragment) getView()).setTitle(FileUtils.getShortPath(mCurrentDir));
+                }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mCurrentDir);
     }
@@ -110,6 +124,10 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
 
     @Override
     public void onFileClicked(FileOrFolder file, int position) {
+        if (file.isParent()) {
+            clickedOnParent();
+            return;
+        }
         if (mSelectedMode) {
             if (file.isSelected()) {
                 mSelectedItemCount--;
@@ -127,6 +145,12 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
                 openFile(file);
             }
         }
+    }
+
+    private void clickedOnParent() {
+        mSelectedMode = false;
+        getView().switchActionMode(mSelectedMode);
+        openDirectory(mCurrentDir.getParentFile());
     }
 
     private void openFile(File file) {
@@ -156,6 +180,10 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
 
     @Override
     public void onLongFileClicked(FileOrFolder file, int position) {
+        if (file.isParent()) {
+            clickedOnParent();
+            return;
+        }
         if (!mSelectedMode) {
             mSelectedItemCount++;
             mSelectedMode = true;
@@ -183,5 +211,20 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
         }
         mSelectedItemCount = 0;
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void permissionsGranted(boolean granted) {
+        if (granted) {
+            loadFileList();
+        }
+    }
+
+    public boolean onBackPressed() {
+        if(!FileUtils.isInternalOrSDCard(mCurrentDir)){
+            mCurrentDir = mCurrentDir.getParentFile();
+            loadFileList();
+            return false;
+        }
+        return true;
     }
 }

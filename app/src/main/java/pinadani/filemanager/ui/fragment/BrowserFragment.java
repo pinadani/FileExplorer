@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,9 +36,13 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
 
     private ActionMode mActionMode = null;
 
+    private Toast mLeavingToast;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Toast shown when user presses back button first time
+        mLeavingToast = Toast.makeText(getActivity(), R.string.main_leave, Toast.LENGTH_SHORT);
     }
 
     @Nullable
@@ -79,7 +84,6 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
 
     @Override
     protected void initAB() {
-        baseSettingsAB();
     }
 
     @Override
@@ -138,4 +142,18 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
             getPresenter().deselectItems();
         }
     };
+
+
+    @Override
+    public boolean onBackPressed() {
+        if (getPresenter().onBackPressed()) {
+            // Press back button two times before leaving the app.
+            if (mLeavingToast.getView().getWindowVisibility() != View.VISIBLE) {
+                mLeavingToast.show();
+            } else {
+                getActivity().finish();
+            }
+        }
+        return false;
+    }
 }

@@ -30,7 +30,6 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private Toast mLeavingToast;
 
     @SuppressLint("ShowToast")
     @Override
@@ -40,12 +39,9 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
-        // Toast shown when user presses back button first time
-        mLeavingToast = Toast.makeText(this, R.string.main_leave, Toast.LENGTH_SHORT);
-
         //requesting storage permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkForPermissions(true);
+            checkForPermissionsAndShowDialog(true);
         }
     }
 
@@ -55,7 +51,7 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
         switch (requestCode) {
             case AccessStoragePermissionDialogFragment.REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                    ((BrowserFragment)getCurrentFragment()).getPresenter().permissionsGranted(true);
                 } else {
                     finish();
                 }
@@ -70,11 +66,6 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
 
     @Override
     public void onBackPressed() {
-        // Press back button two times before leaving the app.
-        if (mLeavingToast.getView().getWindowVisibility() != View.VISIBLE) {
-            mLeavingToast.show();
-        } else {
-            super.onBackPressed();
-        }
+        ((BrowserFragment)getCurrentFragment()).onBackPressed();
     }
 }

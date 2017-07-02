@@ -216,7 +216,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
      * @param forceDialog Boolean whether to forcefully open dialog about why should the user
      *                    allow storage permission.
      */
-    public boolean checkForPermissions(boolean forceDialog) {
+    public boolean checkForPermissionsAndShowDialog(boolean forceDialog) {
         // Here, thisActivity is the current activity
         String accessStorage = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         if (!PermissionUtils.areStoragePermissionsGranted(this)) {
