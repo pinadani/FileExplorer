@@ -21,7 +21,8 @@ import pinadani.filemanager.model.FileOrFolder;
 import pinadani.filemanager.utils.FileUtils;
 
 /**
- * TODO
+ * Adapter showing list of items.
+ * Created by Daniel Pina on 7/1/2017.
  */
 public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapter.ViewHolder> {
     public static final String TAG = FileAdapter.class.getName();
@@ -108,7 +109,7 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
     }
 
     /**
-     * TODO
+     * Listener interface, which listen clicks on items.
      */
     public interface IFileListener {
         void onFileClicked(FileOrFolder file, int position);

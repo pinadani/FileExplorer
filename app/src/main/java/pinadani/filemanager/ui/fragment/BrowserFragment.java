@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -34,9 +35,14 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
     @Bind(R.id.recycler_file)
     RecyclerView mRecyclerFile;
 
+    @Bind(R.id.txt_empty_folder)
+    TextView mEmptyFolderText;
+
     private ActionMode mActionMode = null;
 
     private Toast mLeavingToast;
+
+    private MenuItem mReloadMenuItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,13 +62,7 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mRecyclerFile.setLayoutManager(new LinearLayoutManager(getContext()));
+        inflater.inflate(R.menu.menu_browser, menu);
     }
 
     @Override
@@ -70,12 +70,23 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
         switch (item.getItemId()) {
             case R.id.settings:
                 BaseFragmentActivity.startActivity(getActivity(), PrefsFragment.class.getName());
-                return true;
+                break;
+            case R.id.refresh:
+                getPresenter().refresh();
+                break;
             default:
                 break;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerFile.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
 
     @Override
     protected String getTitle() {
@@ -155,5 +166,9 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
             }
         }
         return false;
+    }
+
+    public void showEmptyFolder(boolean showEmptyFolder) {
+        mEmptyFolderText.setVisibility(showEmptyFolder ? View.VISIBLE : View.GONE);
     }
 }

@@ -66,7 +66,12 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
     }
 
     void loadFileList() {
-        if (loadFilesTask != null) return;
+        mSelectedItemCount = 0;
+        mSelectedMode = false;
+
+        if (loadFilesTask != null) {
+            return;
+        }
         this.loadFilesTask = new AsyncTask<File, Void, File[]>() {
             @Override
             protected File[] doInBackground(File... params) {
@@ -110,6 +115,7 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
                 mAdapter.setData(mFiles);
                 if (getView() != null) {
                     ((BrowserFragment) getView()).setTitle(FileUtils.getShortPath(mCurrentDir));
+                    ((BrowserFragment) getView()).showEmptyFolder(mFiles.size() == 1);
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mCurrentDir);
@@ -136,7 +142,9 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             }
             file.setSelected(!file.isSelected());
             mSelectedMode = mSelectedItemCount != 0;
-            getView().switchActionMode(mSelectedMode);
+            if (!mSelectedMode) {
+                getView().switchActionMode(false);
+            }
             mAdapter.notifyItemChanged(position);
         } else {
             if (file.isDirectory()) {
@@ -149,9 +157,11 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
 
     private void clickedOnParent() {
         mSelectedMode = false;
+        mSelectedItemCount = 0;
         getView().switchActionMode(mSelectedMode);
         openDirectory(mCurrentDir.getParentFile());
     }
+
 
     private void openFile(File file) {
 
@@ -160,7 +170,6 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
 
             try {
                 ((BrowserFragment) getView()).startActivity(intent);
-
             } catch (ActivityNotFoundException e) {
                 ((BrowserFragment) getView()).startActivity(Intent.createChooser(intent, ((BrowserFragment) getView()).getString(R.string.open_file_with_, file.getName())));
             } catch (Exception e) {
@@ -203,6 +212,11 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             }
         }
         FileUtils.deleteFoldersOrFolder(filesToDelete);
+        refresh();
+    }
+
+    public void refresh() {
+        loadFileList();
     }
 
     public void deselectItems() {
@@ -210,6 +224,7 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             file.setSelected(false);
         }
         mSelectedItemCount = 0;
+        mSelectedMode = false;
         mAdapter.notifyDataSetChanged();
     }
 
@@ -220,11 +235,16 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
     }
 
     public boolean onBackPressed() {
-        if(!FileUtils.isInternalOrSDCard(mCurrentDir)){
+        if (!FileUtils.isInternalOrSDCard(mCurrentDir)) {
             mCurrentDir = mCurrentDir.getParentFile();
             loadFileList();
             return false;
         }
         return true;
+    }
+
+    public void switchFolder(int storageType) {
+        mCurrentDir = FileUtils.getDirByType(storageType);
+        loadFileList();
     }
 }

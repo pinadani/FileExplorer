@@ -24,12 +24,8 @@ public class AccessStoragePermissionDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.permission_access_storage_expanation);
-        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-        });
-        builder.setNegativeButton(R.string.alert_dialog_default_negative, (dialogInterface, i) -> {
-            getActivity().finish();
-        });
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE));
+        builder.setNegativeButton(R.string.alert_dialog_default_negative, (dialogInterface, i) -> getActivity().finish());
         builder.setCancelable(false);
         setCancelable(false);
         return builder.create();

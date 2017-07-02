@@ -16,4 +16,13 @@
     <string name="action_delete">Delete</string>
     <string name="error">Error</string>
     <string name="open_file_with_">Open %s with:</string>
+    <string name="reload">Reload</string>
+    <string name="internal_storage">Internal storage</string>
+    <string name="root">Root</string>
+    <string name="images">Images</string>
+    <string name="music">Music</string>
+    <string name="downloads">Download</string>
+    <string name="openDrawer">Open drawer</string>
+    <string name="closeDrawer">Close drawer</string>
+    <string name="folder_is_empty">Folder is empty</string>
 </resources>

@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings"
-        app:showAsAction="collapseActionView"
-        android:title="@string/settings"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_navigation"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/root"
+            android:checked="false"
+            android:icon="@drawable/ic_sd_card"
+            android:title="@string/root"/>
+
+        <item
+            android:id="@+id/images"
+            android:checked="false"
+            android:icon="@drawable/ic_image"
+            android:title="@string/images"/>
+
+        <item
+            android:id="@+id/music"
+            android:checked="false"
+            android:icon="@drawable/ic_library_music"
+            android:title="@string/music"/>
+
+        <item
+            android:id="@+id/download"
+            android:checked="false"
+            android:icon="@drawable/ic_file_download"
+            android:title="@string/downloads"/>
+
+
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/settings"
+            android:checked="false"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings"/>
+
+    </group>
 </menu>

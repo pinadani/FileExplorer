@@ -11,28 +11,27 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Locale;
 
+import pinadani.filemanager.App;
 import pinadani.filemanager.Constants;
+import pinadani.filemanager.R;
 
 /**
+ * Class for working with files and filesystem
  * Created by Daniel.Pina on 1.7.2017.
  */
 public class FileUtils {
     private static final String BYTES_POSTFIX = " bytes";
-    private static final String KILOBYTES_POSTFIX = " kb";
-    private static final String MEGABYTES_POSTFIX = " mb";
-    private static final String GIGABYTES_POSTFIX = " gb";
+    private static final String KILOBYTES_POSTFIX = " KB";
+    private static final String MEGABYTES_POSTFIX = " MB";
+    private static final String GIGABYTES_POSTFIX = " GB";
+
+    public static final int INTERNAL_STORAGE = 0;
+    public static final int EXTERNAL_STORAGE = 1;
+    public static final int IMAGES_STORAGE = 2;
+    public static final int MUSIC_STORAGE = 3;
+    public static final int DOWNLOADS_STORAGE = 4;
 
     public static final FileFilter DEFAULT_FILE_FILTER = pathname -> !pathname.isHidden();
-
-    public static String getFileMimeType(File file) {
-        String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(file));
-        if (type == null) return "*/*";
-        return type;
-    }
-
-    private static String getFileExtension(File file) {
-        return getFileExtension(file.getName());
-    }
 
     /**
      * Gets extension of the file name excluding the . character
@@ -64,11 +63,25 @@ public class FileUtils {
             }
         } else {
             if (isExternalHomeDir(dir)) {
-                //TODO
-                return "SD Card";
+                return App.getInstance().getString(R.string.root);
             }
         }
-        return "/";
+        return Constants.DEFAULT_HOME_FOLDER;
+    }
+
+    public static File getDirByType(int storageType) {
+        switch (storageType) {
+            case EXTERNAL_STORAGE:
+                return getExternalSDCard();
+            case IMAGES_STORAGE:
+                return getImagesDir();
+            case MUSIC_STORAGE:
+                return getMusicDir();
+            case DOWNLOADS_STORAGE:
+                return getDownloadDir();
+            default:
+                return null;
+        }
     }
 
     /**
@@ -98,39 +111,38 @@ public class FileUtils {
 
 
     /**
-     * TODO
-     * TODO
+     * File size formatting.
      *
-     * @param file
-     * @return
+     * @param file File where we format its size.
+     * @return Formatted file size.
      */
     public static String formatFileSize(File file) {
         long size = file.length();
 
         if (size < Constants.KILOBYTE) {
-            return getFileSizeString(size, BYTES_POSTFIX);
+            return getFileSizeString((float) size, BYTES_POSTFIX);
         } else {
             if (size < Constants.MEGABYTE) {
-                return getFileSizeString(size / Constants.KILOBYTE, KILOBYTES_POSTFIX);
+                return getFileSizeString((float) size / Constants.KILOBYTE, KILOBYTES_POSTFIX);
             } else {
                 if (size < Constants.GIGABYTE) {
-                    return getFileSizeString(size / Constants.MEGABYTE, MEGABYTES_POSTFIX);
+                    return getFileSizeString((float) size / Constants.MEGABYTE, MEGABYTES_POSTFIX);
                 } else {
-                    return getFileSizeString(size / Constants.GIGABYTE, GIGABYTES_POSTFIX);
+                    return getFileSizeString((float) size / Constants.GIGABYTE, GIGABYTES_POSTFIX);
                 }
             }
         }
     }
 
-    private static String getFileSizeString(long size, String postfix) {
-        return String.format(Locale.US, "%.2f", (float) size) + postfix;
+    private static String getFileSizeString(float size, String postfix) {
+        return String.format(Locale.US, "%.2f", size) + postfix;
     }
 
     /**
-     * TODO
+     * Getting the number of subfiles and subfolders.
      *
-     * @param folder
-     * @return
+     * @param folder The file where we find the number of subfiles and subfolders.
+     * @return number of subfiles and subfolders
      */
     public static int getNumFilesInFolder(File folder) {
         if (!folder.isDirectory()) {
@@ -141,9 +153,9 @@ public class FileUtils {
     }
 
     /**
-     * TODO
+     * Delete collection of files and folders including all subfolders.
      *
-     * @param directories
+     * @param directories Collection of files and folders to delete.
      */
     public static void deleteFoldersOrFolder(Collection<File> directories) {
         for (File file : directories) {
@@ -154,5 +166,23 @@ public class FileUtils {
         }
     }
 
+    public static File getExternalSDCard() {
+        return Environment.getExternalStorageDirectory();
+    }
 
+    public static File getMusicDir() {
+        return getExternalStorageDir(Environment.DIRECTORY_MUSIC);
+    }
+
+    public static File getImagesDir() {
+        return getExternalStorageDir(Environment.DIRECTORY_DCIM);
+    }
+
+    public static File getDownloadDir() {
+        return getExternalStorageDir(Environment.DIRECTORY_DOWNLOADS);
+    }
+
+    private static File getExternalStorageDir(String dir) {
+        return Environment.getExternalStoragePublicDirectory(dir);
+    }
 }
