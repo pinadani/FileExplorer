@@ -81,10 +81,13 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
             //Closing drawer on item click
             mDrawerLayout.closeDrawers();
 
-            int switchTo = FileUtils.INTERNAL_STORAGE;
+            int switchTo = FileUtils.HOME_STORAGE;
             //Check to see which item was being clicked and perform appropriate action
             switch (item.getItemId()) {
 
+                case R.id.home:
+                    switchTo = FileUtils.HOME_STORAGE;
+                    break;
                 case R.id.root:
                     switchTo = FileUtils.EXTERNAL_STORAGE;
                     break;
@@ -98,8 +101,8 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
                     switchTo = FileUtils.DOWNLOADS_STORAGE;
                     break;
                 case R.id.settings:
-                    BaseFragmentActivity.startActivity(this, PrefsFragment.class.getName());
-                    break;
+                    ((BrowserFragment) getCurrentFragment()).getPresenter().openSettings();
+                    return true;
                 default:
                     break;
             }

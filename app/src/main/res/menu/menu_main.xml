@@ -6,6 +6,12 @@
         android:checkableBehavior="none">
 
         <item
+            android:id="@+id/home"
+            android:checked="false"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home"/>
+
+        <item
             android:id="@+id/root"
             android:checked="false"
             android:icon="@drawable/ic_sd_card"

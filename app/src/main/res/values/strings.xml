@@ -15,7 +15,7 @@
     <string name="default_movies_categories">popular</string>
     <string name="action_delete">Delete</string>
     <string name="error">Error</string>
-    <string name="open_file_with_">Open %s with:</string>
+    <string name="open_file_with">Open %s with:</string>
     <string name="reload">Reload</string>
     <string name="internal_storage">Internal storage</string>
     <string name="root">Root</string>
@@ -25,4 +25,7 @@
     <string name="openDrawer">Open drawer</string>
     <string name="closeDrawer">Close drawer</string>
     <string name="folder_is_empty">Folder is empty</string>
+    <string name="set_default_folder">Set default folder</string>
+    <string name="set_actual_folder_as_default">Set the current folder %s as the default? </string>
+    <string name="home">Home</string>
 </resources>

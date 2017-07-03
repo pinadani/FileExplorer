@@ -2,7 +2,6 @@ package pinadani.filemanager.utils;
 
 import android.os.Environment;
 import android.text.TextUtils;
-import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -25,7 +24,7 @@ public class FileUtils {
     private static final String MEGABYTES_POSTFIX = " MB";
     private static final String GIGABYTES_POSTFIX = " GB";
 
-    public static final int INTERNAL_STORAGE = 0;
+    public static final int HOME_STORAGE = 0;
     public static final int EXTERNAL_STORAGE = 1;
     public static final int IMAGES_STORAGE = 2;
     public static final int MUSIC_STORAGE = 3;
@@ -69,8 +68,10 @@ public class FileUtils {
         return Constants.DEFAULT_HOME_FOLDER;
     }
 
-    public static File getDirByType(int storageType) {
+    public static File getDirByType(int storageType, File homeFolder) {
         switch (storageType) {
+            case HOME_STORAGE:
+                return homeFolder;
             case EXTERNAL_STORAGE:
                 return getExternalSDCard();
             case IMAGES_STORAGE:

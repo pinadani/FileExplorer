@@ -11,4 +11,6 @@ public interface ISPInteractor {
     File getHomeFolder();
 
     void saveHomeFolder(String homeFolder);
+
+
 }

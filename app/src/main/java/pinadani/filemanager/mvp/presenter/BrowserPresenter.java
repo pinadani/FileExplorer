@@ -23,8 +23,10 @@ import pinadani.filemanager.R;
 import pinadani.filemanager.interactor.ISPInteractor;
 import pinadani.filemanager.model.FileOrFolder;
 import pinadani.filemanager.mvp.view.IBrowserView;
+import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
 import pinadani.filemanager.ui.adapter.FileAdapter;
 import pinadani.filemanager.ui.fragment.BrowserFragment;
+import pinadani.filemanager.ui.fragment.PrefsFragment;
 import pinadani.filemanager.utils.FileUtils;
 import pinadani.filemanager.utils.IntentUtils;
 import pinadani.filemanager.utils.PermissionUtils;
@@ -200,7 +202,7 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             try {
                 ((BrowserFragment) getView()).startActivity(intent);
             } catch (ActivityNotFoundException e) {
-                ((BrowserFragment) getView()).startActivity(Intent.createChooser(intent, ((BrowserFragment) getView()).getString(R.string.open_file_with_, file.getName())));
+                ((BrowserFragment) getView()).startActivity(Intent.createChooser(intent, ((BrowserFragment) getView()).getString(R.string.open_file_with, file.getName())));
             } catch (Exception e) {
                 new AlertDialog.Builder(((BrowserFragment) getView()).getActivity())
                         .setMessage(e.getMessage())
@@ -273,7 +275,15 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
     }
 
     public void switchFolder(int storageType) {
-        mCurrentDir = FileUtils.getDirByType(storageType);
+        mCurrentDir = FileUtils.getDirByType(storageType, mSPInteractor.getHomeFolder());
         loadFileList();
+    }
+
+    public void openSettings() {
+        Bundle bundle = new Bundle();
+        bundle.putString(PrefsFragment.DEFAULT_FOLDER, mSPInteractor.getHomeFolder().getAbsolutePath());
+        bundle.putString(PrefsFragment.CURRENT_FOLDER, mCurrentDir.getAbsolutePath());
+
+        BaseFragmentActivity.startActivity(App.getInstance(), PrefsFragment.class.getName(), bundle);
     }
 }

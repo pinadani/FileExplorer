@@ -22,6 +22,7 @@ import pinadani.filemanager.R;
 import pinadani.filemanager.mvp.presenter.BrowserPresenter;
 import pinadani.filemanager.mvp.view.IBrowserView;
 import pinadani.filemanager.ui.LayoutManager.GridAutoFitLayoutManager;
+import pinadani.filemanager.ui.activity.MainActivity;
 import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
 import pinadani.filemanager.ui.adapter.FileAdapter;
 import pinadani.filemanager.ui.fragment.base.BaseNucleusFragment;
@@ -69,7 +70,7 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                BaseFragmentActivity.startActivity(getActivity(), PrefsFragment.class.getName());
+                getPresenter().openSettings();
                 break;
             case R.id.refresh:
                 getPresenter().refresh();
@@ -123,6 +124,7 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
+            ((MainActivity) getActivity()).getSupportActionBar().hide();
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_delete, menu);
             return true;
@@ -151,6 +153,7 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
         // Called when the user exits the action mode
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            ((MainActivity) getActivity()).getSupportActionBar().show();
             mActionMode = null;
             getPresenter().deselectItems();
         }
