@@ -45,7 +45,7 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         FileOrFolder fileOrFolder = getItem(position);
-        holder.mRow.setOnClickListener(v -> mFileListener.onFileClicked(fileOrFolder, position));
+        holder.mRow.setOnClickListener(v -> mFileListener.onFileClicked(fileOrFolder, position, holder.mFileImg));
 
         holder.mRow.setOnLongClickListener(v -> {
             mFileListener.onLongFileClicked(fileOrFolder, position);
@@ -101,6 +101,7 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
         RelativeLayout mFileSelectedLayout;
 
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -112,7 +113,7 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
      * Listener interface, which listen clicks on items.
      */
     public interface IFileListener {
-        void onFileClicked(FileOrFolder file, int position);
+        void onFileClicked(FileOrFolder file, int position, ImageView view);
 
         void onLongFileClicked(FileOrFolder file, int position);
     }

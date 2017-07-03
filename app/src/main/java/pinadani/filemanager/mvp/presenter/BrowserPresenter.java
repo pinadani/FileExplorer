@@ -5,6 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -129,7 +132,8 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
     }
 
     @Override
-    public void onFileClicked(FileOrFolder file, int position) {
+    public void onFileClicked(FileOrFolder file, int position, ImageView imageView) {
+
         if (file.isParent()) {
             clickedOnParent();
             return;
@@ -148,11 +152,36 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             mAdapter.notifyItemChanged(position);
         } else {
             if (file.isDirectory()) {
-                openDirectory(file);
+                openDirectoryAfterAnimation(file, imageView);
             } else {
                 openFile(file);
             }
         }
+    }
+
+    private void openDirectoryAfterAnimation(FileOrFolder file, ImageView imageView) {
+        // dismiss animation
+        Animation dismiss = AnimationUtils.loadAnimation(App.getInstance(), R.anim.dismiss);
+        dismiss.setDuration(500);
+        dismiss.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                openDirectory(file);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        imageView.startAnimation(dismiss);
+
+        return;
     }
 
     private void clickedOnParent() {
@@ -200,7 +229,7 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             getView().switchActionMode(true);
             mAdapter.notifyItemChanged(position);
         } else {
-            onFileClicked(file, position);
+            onFileClicked(file, position, null);
         }
     }
 

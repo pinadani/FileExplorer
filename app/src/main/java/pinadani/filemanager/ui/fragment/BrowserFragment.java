@@ -2,8 +2,8 @@ package pinadani.filemanager.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,9 +17,11 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import nucleus.factory.RequiresPresenter;
+import pinadani.filemanager.App;
 import pinadani.filemanager.R;
 import pinadani.filemanager.mvp.presenter.BrowserPresenter;
 import pinadani.filemanager.mvp.view.IBrowserView;
+import pinadani.filemanager.ui.LayoutManager.GridAutoFitLayoutManager;
 import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
 import pinadani.filemanager.ui.adapter.FileAdapter;
 import pinadani.filemanager.ui.fragment.base.BaseNucleusFragment;
@@ -41,8 +43,6 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
     private ActionMode mActionMode = null;
 
     private Toast mLeavingToast;
-
-    private MenuItem mReloadMenuItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,9 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerFile.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerFile.setLayoutManager(new GridAutoFitLayoutManager(getContext(),
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
+                        App.getInstance().getResources().getDisplayMetrics())));
     }
 
 
