@@ -9,7 +9,11 @@ Testovano na Huawei Honor 9 - Android 7 a emulatoru
 Architektura MVP
 
 Knihovny:
-    dagger
-    butterknife
-    nucleus
-    stetho
+
+- dagger
+
+- butterknife
+
+- nucleus
+
+- stetho
