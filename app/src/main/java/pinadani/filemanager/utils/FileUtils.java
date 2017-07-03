@@ -42,10 +42,22 @@ public class FileUtils {
             return "";
     }
 
+    /**
+     * Check if file is internal root storage
+     *
+     * @param file checked file
+     * @return file = root storage
+     */
     public static boolean isInternalHomeDir(File file) {
         return TextUtils.equals(Environment.getRootDirectory().getAbsolutePath(), file.getAbsolutePath());
     }
 
+    /**
+     * Check if file is external root storage
+     *
+     * @param file checked file
+     * @return file = root storage
+     */
     public static boolean isExternalHomeDir(File file) {
         return TextUtils.equals(Environment.getExternalStorageDirectory().getAbsolutePath(), file.getAbsolutePath());
     }
@@ -54,6 +66,12 @@ public class FileUtils {
         return (isInternalHomeDir(file) || isExternalHomeDir(file));
     }
 
+    /**
+     * trim path
+     *
+     * @param dir file to trim
+     * @return short filename
+     */
     public static String getShortPath(File dir) {
         if (!isInternalOrSDCard(dir)) {
             String path = dir.getAbsolutePath();
@@ -68,6 +86,13 @@ public class FileUtils {
         return Constants.DEFAULT_HOME_FOLDER;
     }
 
+    /**
+     * Get folder by type
+     *
+     * @param storageType Storage type
+     * @param homeFolder  Home dir
+     * @return File by type
+     */
     public static File getDirByType(int storageType, File homeFolder) {
         switch (storageType) {
             case HOME_STORAGE:
