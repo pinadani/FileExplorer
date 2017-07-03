@@ -16,11 +16,10 @@ import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
 import pinadani.filemanager.ui.fragment.base.IBaseFragment;
 
 /**
- * TODO
+ * Settings fragment to set default folder
  * Created by Daniel.Pina on 1.7.2017.
  */
 public class PrefsFragment extends PreferenceFragmentCompat implements IBaseFragment, Preference.OnPreferenceClickListener {
-    public static final String DEFAULT_FOLDER = "default_folder";
     public static final String CURRENT_FOLDER = "current_folder";
 
     @Inject
@@ -39,7 +38,7 @@ public class PrefsFragment extends PreferenceFragmentCompat implements IBaseFrag
 
         mDefaultFolderPreference = findPreference("default_folder_key");
         mDefaultFolderPreference.setOnPreferenceClickListener(this);
-        mDefaultFolderPreference.setSummary(getArguments().getString(DEFAULT_FOLDER));
+        mDefaultFolderPreference.setSummary(mSPInteractor.getHomeFolder().getAbsolutePath());
 
         initSetDefaultFolderDialog(getArguments().getString(CURRENT_FOLDER));
 

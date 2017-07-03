@@ -23,13 +23,13 @@ import pinadani.filemanager.mvp.presenter.BrowserPresenter;
 import pinadani.filemanager.mvp.view.IBrowserView;
 import pinadani.filemanager.ui.LayoutManager.GridAutoFitLayoutManager;
 import pinadani.filemanager.ui.activity.MainActivity;
-import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
 import pinadani.filemanager.ui.adapter.FileAdapter;
 import pinadani.filemanager.ui.fragment.base.BaseNucleusFragment;
 
 /**
- * Browser Fragment
- * Created by Daniel Pina
+ * Browser Fragment connect to its presenter.
+ *
+ * Created by Daniel Pina on 1.7.2017.
  **/
 @RequiresPresenter(BrowserPresenter.class)
 public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> implements IBrowserView {
@@ -43,6 +43,9 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
 
     private ActionMode mActionMode = null;
 
+    /**
+     * Double tap back to leaving
+     */
     private Toast mLeavingToast;
 
     @Override
@@ -118,6 +121,9 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
         }
     }
 
+    /**
+     * Callback wirk with action mode to delete items from recyclerview
+     */
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         // Called when the action mode is created; switchActionMode() was called

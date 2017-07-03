@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="permission_access_storage_expanation">Aplikace potřebuje povolit pristup k Vaší paměti, aby ...</string>
-
-    <!--MAIN ACTIVITY-->
-    <string name="main_leave">Press back again to leave</string>
+    <string name="permission_access_storage_expanation">Pro spuštění aplikace je potřeba povolit pristup k paměti zařízení.</string>
+    <string name="main_leave">Stisknětě znova zpět pro odchod</string>
     <string name="alert_dialog_default_positive">OK</string>
     <string name="alert_dialog_default_negative">Zrušit</string>
     <string name="settings">Nastavení</string>
+    <string name="action_delete">Smazat</string>
+    <string name="app_name">Prohlížeč souborů</string>
+    <string name="default_folder">Výchozí složka</string>
+    <string name="downloads">Stažené</string>
+    <string name="error">Chyba</string>
+    <string name="folder_is_empty">Složka je prázdná</string>
+    <string name="home">Domů</string>
+    <string name="images">Obrázky</string>
+    <string name="internal_storage">Vnitřní uložiště</string>
+    <string name="music">Hudba</string>
+    <string name="ok">OK</string>
+    <string name="open_file_with">Open %s with:</string>
+    <string name="reload">Refresh</string>
+    <string name="root">Kořenový adresář</string>
+    <string name="set_actual_folder_as_default">Nastavit výchozí aktuální složku %s jako výchozí? \"</string>
+    <string name="set_default_folder">Nastavení výchozí složky</string>
 </resources>

@@ -45,13 +45,17 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         FileOrFolder fileOrFolder = getItem(position);
+
+        // Set on click listener
         holder.mRow.setOnClickListener(v -> mFileListener.onFileClicked(fileOrFolder, position, holder.mFileImg));
 
+        // Set on long click listener
         holder.mRow.setOnLongClickListener(v -> {
             mFileListener.onLongFileClicked(fileOrFolder, position);
             return true;
         });
 
+        // init UP-navigation item
         if (mHasParent && position == 0) {
             holder.mFileImg.setVisibility(View.VISIBLE);
             holder.mFileType.setVisibility(View.GONE);
@@ -61,6 +65,7 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
             return;
         }
 
+        // Show right icons and subtitle for folders and files
         if (fileOrFolder.isDirectory()) {
             holder.mFileDate.setText(mDateFormat.format(fileOrFolder.lastModified()));
             holder.mFileImg.setImageDrawable(ContextCompat.getDrawable(App.getInstance(), R.drawable.ic_folder));
@@ -75,8 +80,6 @@ public class FileAdapter extends BaseRecyclerViewAdapter<FileOrFolder, FileAdapt
         holder.mFileSelectedLayout.setVisibility(fileOrFolder.isSelected() ? View.VISIBLE : View.GONE);
 
         holder.mFileName.setText(fileOrFolder.getName());
-
-
     }
 
     public void setParent(boolean hasParent) {

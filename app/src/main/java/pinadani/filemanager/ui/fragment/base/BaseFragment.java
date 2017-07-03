@@ -1,12 +1,3 @@
-/**
- * BaseFragment.java
- *
- * @project Ulek
- * @package cz.eman.ulek.fragment.base.BaseFragment
- * @author eMan s.r.o.
- * @since 19.11.13 14:13
- */
-
 package pinadani.filemanager.ui.fragment.base;
 
 import android.os.Bundle;

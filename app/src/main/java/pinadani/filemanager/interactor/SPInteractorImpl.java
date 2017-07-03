@@ -25,6 +25,11 @@ public class SPInteractorImpl implements ISPInteractor {
         mSharedPreferences = mCtx.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
     }
 
+    /**
+     * Get home folder saved in share pref. If home folder isnt select, return root folder.
+     *
+     * @return return home dir as File
+     */
     @Override
     public File getHomeFolder() {
         String homeFolder = mSharedPreferences.getString(SP_HOME_FOLDER, null);

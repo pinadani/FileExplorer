@@ -9,7 +9,7 @@ import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
  * Common class for all types of fragments
  */
 public class FragmentDelegate {
-    static final String TAG = "FragmentDelegate";
+    static final String TAG = FragmentDelegate.class.getName();
     private IBaseFragment fragment;
 
     public void onDestroy() {

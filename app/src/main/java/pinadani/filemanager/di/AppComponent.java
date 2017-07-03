@@ -4,7 +4,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import pinadani.filemanager.mvp.presenter.BrowserPresenter;
-import pinadani.filemanager.mvp.presenter.MainPresenter;
 import pinadani.filemanager.ui.fragment.PrefsFragment;
 
 
@@ -16,8 +15,6 @@ import pinadani.filemanager.ui.fragment.PrefsFragment;
 @Component(modules = {
         AppModule.class})
 public interface AppComponent {
-
-    void inject(MainPresenter mainPresenter);
 
     void inject(BrowserPresenter browserPresenter);
 

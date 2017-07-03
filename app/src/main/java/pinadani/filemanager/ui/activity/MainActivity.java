@@ -1,6 +1,5 @@
 package pinadani.filemanager.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,23 +11,17 @@ import android.support.v7.widget.Toolbar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import nucleus.factory.RequiresPresenter;
 import pinadani.filemanager.R;
-import pinadani.filemanager.mvp.presenter.MainPresenter;
-import pinadani.filemanager.mvp.view.IMainView;
 import pinadani.filemanager.ui.activity.base.BaseFragmentActivity;
-import pinadani.filemanager.ui.activity.base.BaseNucleusActivity;
 import pinadani.filemanager.ui.fragment.BrowserFragment;
-import pinadani.filemanager.ui.fragment.PrefsFragment;
 import pinadani.filemanager.ui.fragment.dialog.AccessStoragePermissionDialogFragment;
 import pinadani.filemanager.utils.FileUtils;
 
 /**
- * Main activity
+ * Main activity with drawer
  * Created by Daniel.Pina on 1.7.2017.
  */
-@RequiresPresenter(MainPresenter.class)
-public class MainActivity extends BaseNucleusActivity<MainPresenter> implements IMainView {
+public class MainActivity extends BaseFragmentActivity {
     public static final String TAG = MainActivity.class.getName();
 
     @Bind(R.id.toolbar)
@@ -38,9 +31,6 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
     @Bind(R.id.navigation_view)
     NavigationView mNavigationView;
 
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
-
-    @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,8 +102,7 @@ public class MainActivity extends BaseNucleusActivity<MainPresenter> implements 
 
 
         // HamburgerMenu animation.
-        mActionBarDrawerToggle =
-                new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.openDrawer, R.string.closeDrawer);
+        ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.openDrawer, R.string.closeDrawer);
 
         //Setting the actionbarToggle to drawer layout
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
