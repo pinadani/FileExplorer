@@ -28,7 +28,7 @@ import pinadani.filemanager.ui.fragment.base.BaseNucleusFragment;
 
 /**
  * Browser Fragment connect to its presenter.
- *
+ * <p>
  * Created by Daniel Pina on 1.7.2017.
  **/
 @RequiresPresenter(BrowserPresenter.class)
@@ -43,6 +43,10 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
 
     private ActionMode mActionMode = null;
 
+    private GridAutoFitLayoutManager mGridAutoFitLayoutManager =
+            new GridAutoFitLayoutManager(App.getInstance(),
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
+                            App.getInstance().getResources().getDisplayMetrics()));
     /**
      * Double tap back to leaving
      */
@@ -88,11 +92,8 @@ public class BrowserFragment extends BaseNucleusFragment<BrowserPresenter> imple
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerFile.setLayoutManager(new GridAutoFitLayoutManager(getContext(),
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
-                        App.getInstance().getResources().getDisplayMetrics())));
+        mRecyclerFile.setLayoutManager(mGridAutoFitLayoutManager);
     }
-
 
     @Override
     protected String getTitle() {

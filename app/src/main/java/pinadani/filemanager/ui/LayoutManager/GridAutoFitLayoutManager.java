@@ -1,9 +1,12 @@
 package pinadani.filemanager.ui.LayoutManager;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+
+import pinadani.filemanager.App;
 
 /**
  * Created by Daniel.Pina on 2.7.2017.
@@ -47,7 +50,9 @@ public class GridAutoFitLayoutManager extends GridLayoutManager {
             } else {
                 totalSpace = height - getPaddingTop() - getPaddingBottom();
             }
-            int spanCount = Math.max(1, totalSpace / mColumnWidth);
+            int spanCount = Math.max(1, totalSpace /
+                    (App.getInstance().getResources().getConfiguration().orientation
+                            == Configuration.ORIENTATION_PORTRAIT ? totalSpace : mColumnWidth));
             setSpanCount(spanCount);
             mColumnWidthChanged = false;
         }
