@@ -1,11 +1,12 @@
 package pinadani.filemanager.ui.fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -32,7 +33,6 @@ public class PrefsFragment extends PreferenceFragmentCompat implements IBaseFrag
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
-
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
 
@@ -41,9 +41,13 @@ public class PrefsFragment extends PreferenceFragmentCompat implements IBaseFrag
         mDefaultFolderPreference.setSummary(mSPInteractor.getHomeFolder().getAbsolutePath());
 
         initSetDefaultFolderDialog(getArguments().getString(CURRENT_FOLDER));
+        getActivity().setTitle(R.string.settings);
+    }
 
-        ActionBar actionBar = ((BaseFragmentActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((BaseFragmentActivity) getActivity()).showHomeButton();
 
     }
 
@@ -69,7 +73,7 @@ public class PrefsFragment extends PreferenceFragmentCompat implements IBaseFrag
 
         // set dialog message
         alertDialogBuilder
-                .setMessage(getString(R.string.set_actual_folder_as_default,currentFolder))
+                .setMessage(getString(R.string.set_actual_folder_as_default, currentFolder))
                 .setCancelable(true)
                 .setPositiveButton("Yes", (dialog, id) -> {
                     mSPInteractor.saveHomeFolder(currentFolder);

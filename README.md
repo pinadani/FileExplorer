@@ -1,5 +1,7 @@
 # FileManager
 
+"./zadani" - zadani tasku v pdf
+
 "./screenshots" - snimky obrazovky
 
 "./apk" - instalacni apk soubor

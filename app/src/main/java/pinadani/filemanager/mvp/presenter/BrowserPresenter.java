@@ -135,6 +135,11 @@ public class BrowserPresenter extends RxPresenter<IBrowserView> implements FileA
             protected void onPostExecute(File[] result) {
                 loadFilesTask = null;
 
+                if(result == null) {
+                    clickedOnParent();
+                    return;
+                }
+
                 mFiles = new ArrayList<>();
 
                 // if I am not in root folder show item to navigate up

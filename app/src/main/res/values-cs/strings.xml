@@ -17,7 +17,7 @@
     <string name="music">Hudba</string>
     <string name="ok">OK</string>
     <string name="open_file_with">Open %s with:</string>
-    <string name="reload">Refresh</string>
+    <string name="reload">Aktualizace</string>
     <string name="root">Kořenový adresář</string>
     <string name="set_actual_folder_as_default">Nastavit výchozí aktuální složku %s jako výchozí? \"</string>
     <string name="set_default_folder">Nastavení výchozí složky</string>

@@ -313,4 +313,11 @@ public class BaseFragmentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    public void showHomeButton() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
 }
